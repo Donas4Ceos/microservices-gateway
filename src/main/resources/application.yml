@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: ceos-microservices-productos
+          uri: lb://ceos-microservices-productos
+          predicates:
+            - Path=/api/producto/**
+          filters:
+            - StripPrefix=1
+            - SetPath=/microservices
+        - id: ceos-microservices-user
+          uri: lb://ceos-microservices-user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+            - SetPath=/microservices

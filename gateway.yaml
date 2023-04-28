@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ceos-microservices-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: ceos-microservices-gateway
+  template:
+    metadata:
+      labels:
+        role: ceos-microservices-gateway
+    spec:
+      containers:
+        - name: ceos-microservices-gateway
+          image: d4ceos/ceos-microservices-gateway:latest
+          ports:
+            - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ceos-microservices-gateway
+spec:
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+  selector:
+    role: ceos-microservices-gateway
